@@ -21,7 +21,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.delegate = self
         
         myImageView.frame = view.frame
-        myImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        myImageView.contentMode = UIViewContentMode.ScaleToFill
         view.addSubview(myImageView)
         
         var showCamera = UIButton(frame: CGRectMake(0, 0, 100, 100))
@@ -60,11 +60,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             currentMask.frame.size.height = height + gr.velocity
             currentMask.frame.size.width = width + gr.velocity
 
-            
         }
-        
-        
-        
         
     }
     
