@@ -25,7 +25,7 @@ class GameViewController: UIViewController {
 
     var timerBar = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 10))
     
-    var currentCircles: [CircleButton] = []
+    var currentCircles: [HendecagonButton] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,7 @@ class GameViewController: UIViewController {
         
         for c in 0..<4 {
             
-            var circle = CircleButton()
+            var circle = HendecagonButton()
             circle.choice = c
             circle.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             circle.center = view.center
@@ -147,7 +147,7 @@ class GameViewController: UIViewController {
     
     var currentCorrectButton: Int = 0
     
-    func tapCircle(circle: CircleButton) {
+    func tapCircle(circle: HendecagonButton) {
         
         // Check if it's the correct button.
         

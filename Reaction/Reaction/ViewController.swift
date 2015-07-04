@@ -12,7 +12,7 @@ import GameKit
 class ViewController: UIViewController, GKGameCenterControllerDelegate {
 
     @IBOutlet weak var leaderboardButton: UIButton!
-    @IBOutlet weak var goLabel: CircleButton!
+    @IBOutlet weak var goLabel: HendecagonButton!
     @IBOutlet weak var topScoreLabel: UILabel!
     
     override func viewDidLoad() {
