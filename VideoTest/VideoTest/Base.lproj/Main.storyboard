@@ -188,7 +188,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="stopButtonPressed:" destination="doH-3O-wuG" eventType="touchUpInside" id="ieW-YN-HJX"/>
-                                    <segue destination="Wh1-sc-4Fo" kind="show" id="mD3-rg-Ilc"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -233,6 +232,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pp6-Bd-l9E">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="imageViewRadius">
+                                        <real key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qju-05-C1M" customClass="CustomButton" customModule="VideoTest" customModuleProvider="target">
                                 <rect key="frame" x="16" y="20" width="60" height="40"/>
                                 <constraints>
@@ -253,15 +261,6 @@
                                     <action selector="retryButtonPressed:" destination="doH-3O-wuG" eventType="touchUpInside" id="XdV-d4-XNB"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pp6-Bd-l9E" customClass="RadiusImageView" customModule="VideoTest" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="70" width="600" height="435"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="imageViewRadius">
-                                        <real key="value" value="15"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KdU-50-MEH" customClass="CustomButton" customModule="VideoTest" customModuleProvider="target">
                                 <rect key="frame" x="16" y="520" width="88" height="60"/>
                                 <constraints>
@@ -276,7 +275,7 @@
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" red="0.43780479020000002" green="0.84339778239999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.9097024937" green="0.4666579367" blue="0.1085912451" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <variation key="default">
@@ -304,7 +303,7 @@
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" red="0.43780479020000002" green="0.84339778239999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.9097024937" green="0.4666579367" blue="0.1085912451" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <variation key="default">
@@ -333,9 +332,12 @@
                                         <real key="value" value="45"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" red="0.95488049539999997" green="0.96517913509999997" blue="0.35100207960000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.32449298500000001" green="0.88381865530000003" blue="0.45447848470000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="playVid:" destination="Wh1-sc-4Fo" eventType="touchUpInside" id="gT9-ki-fsG"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rfr-HD-sTA" customClass="CustomButton" customModule="VideoTest" customModuleProvider="target">
                                 <rect key="frame" x="275" y="524" width="51" height="51"/>
@@ -352,9 +354,12 @@
                                         <real key="value" value="45"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" red="0.32449298500000001" green="0.88381865530000003" blue="0.45447848470000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.9097024937" green="0.0" blue="0.050546871010000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="stopVid:" destination="Wh1-sc-4Fo" eventType="touchUpInside" id="vNL-Y7-en7"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -364,26 +369,37 @@
                             <constraint firstItem="KdU-50-MEH" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" constant="16" id="3uG-NV-v6u"/>
                             <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="Rfr-HD-sTA" secondAttribute="bottom" constant="25" id="40e-5t-lZm"/>
                             <constraint firstItem="Qju-05-C1M" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" constant="16" id="6WP-9b-3lb"/>
-                            <constraint firstItem="KdU-50-MEH" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" constant="15" id="AKg-lX-6PG"/>
-                            <constraint firstItem="Pp6-Bd-l9E" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" id="C7h-H1-pE1"/>
+                            <constraint firstItem="KdU-50-MEH" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" constant="17" id="AKg-lX-6PG"/>
+                            <constraint firstItem="Pp6-Bd-l9E" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" constant="16" id="C7h-H1-pE1"/>
                             <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="nQj-sg-dAV" secondAttribute="bottom" constant="20" id="Dyl-Uw-yWc"/>
-                            <constraint firstItem="nQj-sg-dAV" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" constant="15" id="Fc9-Ua-CjK"/>
+                            <constraint firstItem="nQj-sg-dAV" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" constant="17" id="Fc9-Ua-CjK"/>
+                            <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" id="GK7-Zd-znw"/>
                             <constraint firstItem="Qju-05-C1M" firstAttribute="top" secondItem="3aG-ta-rjK" secondAttribute="bottom" id="K4h-LC-9dA"/>
-                            <constraint firstAttribute="trailing" secondItem="Pp6-Bd-l9E" secondAttribute="trailing" id="Ld1-Mm-ztb"/>
+                            <constraint firstAttribute="trailing" secondItem="Pp6-Bd-l9E" secondAttribute="trailing" constant="16" id="Ld1-Mm-ztb"/>
                             <constraint firstItem="Pp6-Bd-l9E" firstAttribute="top" secondItem="3aG-ta-rjK" secondAttribute="bottom" constant="8" id="Mzf-kZ-pwb"/>
+                            <constraint firstItem="Pp6-Bd-l9E" firstAttribute="top" secondItem="ly2-64-nhF" secondAttribute="top" id="O7c-JE-DjY"/>
                             <constraint firstAttribute="centerX" secondItem="Rfr-HD-sTA" secondAttribute="centerX" constant="-0.5" id="OKp-EU-5aY"/>
                             <constraint firstAttribute="centerX" secondItem="VKS-tV-ano" secondAttribute="centerX" constant="-0.5" id="dm1-qF-iGI"/>
+                            <constraint firstItem="Pp6-Bd-l9E" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" id="kaP-Pn-UaL"/>
+                            <constraint firstAttribute="trailing" secondItem="Pp6-Bd-l9E" secondAttribute="trailing" id="r27-px-Vbe"/>
                             <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="VKS-tV-ano" secondAttribute="bottom" constant="25" id="yuS-JQ-z93"/>
-                            <constraint firstItem="Pp6-Bd-l9E" firstAttribute="top" secondItem="Qju-05-C1M" secondAttribute="bottom" constant="10" id="zAb-7y-jGm"/>
+                            <constraint firstItem="Pp6-Bd-l9E" firstAttribute="top" secondItem="Qju-05-C1M" secondAttribute="bottom" constant="8" id="zAb-7y-jGm"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="C7h-H1-pE1"/>
+                                <exclude reference="Ld1-Mm-ztb"/>
                                 <exclude reference="Mzf-kZ-pwb"/>
+                                <exclude reference="zAb-7y-jGm"/>
+                                <exclude reference="AKg-lX-6PG"/>
+                                <exclude reference="Fc9-Ua-CjK"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="capturedVideo" destination="Pp6-Bd-l9E" id="4wA-jz-RPr"/>
+                        <outlet property="playButton" destination="VKS-tV-ano" id="R5f-Hl-h0G"/>
+                        <outlet property="stopButton" destination="Rfr-HD-sTA" id="azo-zl-K2c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbY-Ip-GZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
