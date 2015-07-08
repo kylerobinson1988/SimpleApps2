@@ -49,6 +49,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="loadVideoButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="jd4-Wy-hik"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -168,6 +171,16 @@
                                     <action selector="backButtonPressed:" destination="doH-3O-wuG" eventType="touchUpInside" id="diR-OU-O78"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnV-jO-gAE">
+                                <rect key="frame" x="542" y="21" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="GeM-3k-Wr8"/>
+                                    <constraint firstAttribute="height" constant="50" id="TKD-Dt-eFt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <color key="textColor" red="0.32548999789999999" green="0.69019997119999998" blue="0.9607800245" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FcJ-5R-xfT" customClass="CustomButton" customModule="VideoTest" customModuleProvider="target">
                                 <rect key="frame" x="255" y="490" width="90" height="90"/>
                                 <constraints>
@@ -201,10 +214,12 @@
                             <constraint firstItem="YBr-yK-fW9" firstAttribute="top" secondItem="Cji-K3-K78" secondAttribute="bottom" constant="20" id="Lb2-ZK-5Qq"/>
                             <constraint firstAttribute="centerX" secondItem="Cji-K3-K78" secondAttribute="centerX" id="N7p-GW-7e1"/>
                             <constraint firstItem="bfX-az-QLI" firstAttribute="leading" secondItem="G94-FI-FOl" secondAttribute="leading" constant="16" id="OjH-7N-FRP"/>
+                            <constraint firstItem="jnV-jO-gAE" firstAttribute="top" secondItem="cX7-OS-HFa" secondAttribute="bottom" constant="1" id="T9O-Aa-h49"/>
                             <constraint firstItem="YBr-yK-fW9" firstAttribute="top" secondItem="HwI-bg-8H2" secondAttribute="bottom" constant="20" id="cxO-Hg-CGZ"/>
                             <constraint firstItem="YBr-yK-fW9" firstAttribute="top" secondItem="FcJ-5R-xfT" secondAttribute="bottom" constant="20" id="gSu-T9-EDv"/>
                             <constraint firstAttribute="trailing" secondItem="sWh-lg-NMX" secondAttribute="trailing" id="tZH-Uo-8vb"/>
                             <constraint firstItem="sWh-lg-NMX" firstAttribute="leading" secondItem="G94-FI-FOl" secondAttribute="leading" id="wlW-J9-OAh"/>
+                            <constraint firstAttribute="trailing" secondItem="jnV-jO-gAE" secondAttribute="trailing" constant="8" id="z5s-UG-vIG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="D5Q-cv-BB8"/>
@@ -213,6 +228,7 @@
                         <outlet property="flipButton" destination="HwI-bg-8H2" id="ALo-32-Yc0"/>
                         <outlet property="startButton" destination="Cji-K3-K78" id="nMh-z1-vkw"/>
                         <outlet property="stopButton" destination="FcJ-5R-xfT" id="yZq-94-Ogr"/>
+                        <outlet property="timerLabel" destination="jnV-jO-gAE" id="0RV-Nr-v9q"/>
                         <outlet property="videoView" destination="sWh-lg-NMX" id="yKW-9O-cBJ"/>
                     </connections>
                 </viewController>
@@ -241,6 +257,9 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0JI-mA-c0h">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qju-05-C1M" customClass="CustomButton" customModule="VideoTest" customModuleProvider="target">
                                 <rect key="frame" x="16" y="20" width="60" height="40"/>
                                 <constraints>
@@ -313,7 +332,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="retryButtonPressed:" destination="doH-3O-wuG" eventType="touchUpInside" id="hWh-Tp-Xf9"/>
                                     <action selector="s3ButtonPressed:" destination="Wh1-sc-4Fo" eventType="touchUpInside" id="1ag-SP-9Vn"/>
                                 </connections>
                             </button>
@@ -369,7 +387,9 @@
                             <constraint firstItem="KdU-50-MEH" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" constant="16" id="3uG-NV-v6u"/>
                             <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="Rfr-HD-sTA" secondAttribute="bottom" constant="25" id="40e-5t-lZm"/>
                             <constraint firstItem="Qju-05-C1M" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" constant="16" id="6WP-9b-3lb"/>
+                            <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="0JI-mA-c0h" secondAttribute="bottom" id="7S8-Di-84W"/>
                             <constraint firstItem="KdU-50-MEH" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" constant="17" id="AKg-lX-6PG"/>
+                            <constraint firstAttribute="trailing" secondItem="0JI-mA-c0h" secondAttribute="trailing" id="BNN-It-hJO"/>
                             <constraint firstItem="Pp6-Bd-l9E" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" constant="16" id="C7h-H1-pE1"/>
                             <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="nQj-sg-dAV" secondAttribute="bottom" constant="20" id="Dyl-Uw-yWc"/>
                             <constraint firstItem="nQj-sg-dAV" firstAttribute="top" secondItem="Pp6-Bd-l9E" secondAttribute="bottom" constant="17" id="Fc9-Ua-CjK"/>
@@ -379,7 +399,9 @@
                             <constraint firstItem="Pp6-Bd-l9E" firstAttribute="top" secondItem="3aG-ta-rjK" secondAttribute="bottom" constant="8" id="Mzf-kZ-pwb"/>
                             <constraint firstItem="Pp6-Bd-l9E" firstAttribute="top" secondItem="ly2-64-nhF" secondAttribute="top" id="O7c-JE-DjY"/>
                             <constraint firstAttribute="centerX" secondItem="Rfr-HD-sTA" secondAttribute="centerX" constant="-0.5" id="OKp-EU-5aY"/>
+                            <constraint firstItem="0JI-mA-c0h" firstAttribute="top" secondItem="ly2-64-nhF" secondAttribute="top" id="bfe-su-Lgh"/>
                             <constraint firstAttribute="centerX" secondItem="VKS-tV-ano" secondAttribute="centerX" constant="-0.5" id="dm1-qF-iGI"/>
+                            <constraint firstItem="0JI-mA-c0h" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" id="g9t-Rt-S1p"/>
                             <constraint firstItem="Pp6-Bd-l9E" firstAttribute="leading" secondItem="ly2-64-nhF" secondAttribute="leading" id="kaP-Pn-UaL"/>
                             <constraint firstAttribute="trailing" secondItem="Pp6-Bd-l9E" secondAttribute="trailing" id="r27-px-Vbe"/>
                             <constraint firstItem="9rv-Xq-YFf" firstAttribute="top" secondItem="VKS-tV-ano" secondAttribute="bottom" constant="25" id="yuS-JQ-z93"/>
@@ -400,6 +422,7 @@
                         <outlet property="capturedVideo" destination="Pp6-Bd-l9E" id="4wA-jz-RPr"/>
                         <outlet property="playButton" destination="VKS-tV-ano" id="R5f-Hl-h0G"/>
                         <outlet property="stopButton" destination="Rfr-HD-sTA" id="azo-zl-K2c"/>
+                        <outlet property="videoStillView" destination="0JI-mA-c0h" id="7yW-oB-hVO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbY-Ip-GZY" userLabel="First Responder" sceneMemberID="firstResponder"/>

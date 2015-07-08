@@ -9,55 +9,61 @@
 import UIKit
 import MediaPlayer
 import MobileCoreServices
+import AVFoundation
 
 class SaveVideoViewController: UIViewController {
 
     @IBOutlet weak var capturedVideo: UIView!
     @IBOutlet weak var playButton: CustomButton!
     @IBOutlet weak var stopButton: CustomButton!
+    @IBOutlet weak var videoStillView: UIImageView!
     
     var vidPlayer: MPMoviePlayerController?
-    var videoData: NSData?
     var videoURL: NSURL?
+    var videoStillImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if videoData != nil {
-            
-            println("This stuff should be running.")
-            
-            vidPlayer = MPMoviePlayerController(contentURL: videoURL)
-            vidPlayer?.controlStyle = MPMovieControlStyle.None
-            vidPlayer?.view.frame = self.view.frame
-            vidPlayer?.scalingMode = MPMovieScalingMode.AspectFit
-            capturedVideo.addSubview(vidPlayer!.view)
-            
-        }
+        vidPlayer = MPMoviePlayerController(contentURL: videoURL)
+        vidPlayer?.controlStyle = MPMovieControlStyle.None
+        vidPlayer?.view.frame = self.view.frame
+        vidPlayer?.scalingMode = MPMovieScalingMode.AspectFit
+        capturedVideo.addSubview(vidPlayer!.view)
+        
+        videoStillView.image = videoStillImage
         
         stopButton.hidden = true
         
-        
-        
-        // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func convertVideoQuality(completion: (() -> ())?) {
+        
+        let videoAsset = AVURLAsset(URL: videoURL, options: nil)
+        let exportSession = AVAssetExportSession(asset: videoAsset, presetName: AVAssetExportPresetMediumQuality)
+        println(S3Request.session().resizedVideoURL)
+        exportSession.outputURL = S3Request.session().resizedVideoURL
+        exportSession.outputFileType = AVFileTypeQuickTimeMovie
+        exportSession.exportAsynchronouslyWithCompletionHandler { () -> Void in
+            
+            if let c = completion { c() }
+            
+        }
+        
     }
     
     @IBAction func playVid(sender: AnyObject) {
+            
+        videoStillView?.hidden = true
         
         playButton.hidden = true
         stopButton.hidden = false
         vidPlayer?.play()
         
-        // Code to hide/animate away the button when playback starts.
-        
-        
     }
     @IBAction func stopVid(sender: AnyObject) {
+        
+        videoStillView?.hidden = false
     
         playButton.hidden = false
         stopButton.hidden = true
@@ -75,7 +81,15 @@ class SaveVideoViewController: UIViewController {
     }
     
     @IBAction func s3ButtonPressed(sender: AnyObject) {
+        
+        S3Request.session().thumbnail = videoStillImage
+        
+        convertVideoQuality { () -> () in
+            
+            S3Request.session().saveVideoToS3()
+
+        }
+        
     }
-    
 
 }

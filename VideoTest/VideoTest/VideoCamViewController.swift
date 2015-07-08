@@ -13,6 +13,7 @@ import MobileCoreServices
 
 class VideoCamViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
+    //Outlets for the camera elements.
     @IBOutlet weak var videoView: UIImageView!
     @IBOutlet weak var startButton: CustomButton!
     @IBOutlet weak var stopButton: CustomButton!
@@ -21,13 +22,18 @@ class VideoCamViewController: UIViewController, UINavigationControllerDelegate, 
     
     var videoPick = UIImagePickerController()
     
-    var videoData: NSData?
+    // Timer info.  Set videoDuration from previous VC.
+    @IBOutlet weak var timerLabel: UILabel!
     var timer: NSTimer?
-    
-    var vidPlayer: MPMoviePlayerController?
-    var vidPreview: UIImageView?
+    var videoDuration: Int = 30
+    var countDown: Int = 30
+
     
     var saveVideoVC: SaveVideoViewController?
+    var thumbnail: UIImage?
+    
+    var videoURL: NSURL?
+    var videoStillImage: UIImage?
     
     
     override func viewDidLoad() {
@@ -45,22 +51,23 @@ class VideoCamViewController: UIViewController, UINavigationControllerDelegate, 
         videoPick.view.frame = videoView.frame
         videoView.addSubview(videoPick.view)
         
-        // Do any additional setup after loading the view.
-    }
+        }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         
-        println("Here's my Info from the VideoCamViewController: \(info)")
-        
-        
         if let vidURL = info[UIImagePickerControllerMediaURL] as? NSURL {
             
-            videoData = NSData(contentsOfURL: vidURL)
+            videoURL = vidURL
+            
+            createThumbnail()
+            imageResize()
+                        
+            S3Request.session().videoURL = vidURL.path!
             
             saveVideoVC = storyboard?.instantiateViewControllerWithIdentifier("saveVideoVC") as? SaveVideoViewController
             
-            saveVideoVC!.videoData = videoData
             saveVideoVC!.videoURL = vidURL
+            saveVideoVC!.videoStillImage = videoStillImage
             
             self.navigationController?.pushViewController(saveVideoVC!, animated: true)
             
@@ -74,31 +81,60 @@ class VideoCamViewController: UIViewController, UINavigationControllerDelegate, 
         
     }
     
-    func stopRecording() {
+    func createThumbnail() {
         
-//        timer?.invalidate()
-//        videoPick.stopVideoCapture()
-//        stopButton.hidden = true
-//        startButton.hidden = false
-//        
-//        let saveVideoVC = storyboard?.instantiateViewControllerWithIdentifier("saveVideoVC") as! SaveVideoViewController
+        let asset = AVURLAsset(URL: videoURL, options: nil)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        let frameTime = CMTimeMakeWithSeconds(0.0, 600)
+        let actualTimePointer = UnsafeMutablePointer<CMTime>()
+        let stupendousError = NSErrorPointer()
+        
+        videoStillImage = UIImage(CGImage: generator.copyCGImageAtTime(frameTime, actualTime: actualTimePointer, error: stupendousError))
         
     }
+    
+    func imageResize() {
+        
+        var newSize = CGSize(width: 480,height: 640)
+        let rect = CGRectMake(0,0, newSize.width, newSize.height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        
+        videoStillImage!.drawInRect(rect)
+        videoStillImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+    }
+    
+
     
     func updateSecondsLeft() {
         
-        timer?.invalidate()
-        stopRecording()
-        return
+        countDown--
+        
+        if countDown == 0 {
+            
+            stopRecording()
+            
+        } else {
+            
+            timerLabel.text = String(countDown)
+            
+        }
         
     }
     
-    
-    func takeVideo() {
+    func stopRecording() {
         
-        videoPick.videoMaximumDuration = 20
-        videoPick.startVideoCapture()
-//        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: nil, userInfo: nil, repeats: true)
+        timer?.invalidate()
+        videoPick.stopVideoCapture()
+        
+        countDown = videoDuration
+        
+        timerLabel.text = "\(videoDuration)"
+        stopButton.hidden = true
+        startButton.hidden = false
+        flipButton.hidden = false
         
     }
     
@@ -108,21 +144,19 @@ class VideoCamViewController: UIViewController, UINavigationControllerDelegate, 
         stopButton.hidden = false
         flipButton.hidden = true
         
-        takeVideo()
+        videoPick.startVideoCapture()
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("updateSecondsLeft"), userInfo: nil, repeats: true)
         
     }
     
     @IBAction func stopButtonPressed(sender: AnyObject) {
         
-        stopButton.hidden = true
-        startButton.hidden = false
-        videoPick.stopVideoCapture()
+        stopRecording()
         
     }
     
     @IBAction func flipButtonPressed(sender: AnyObject) {
-        
-        println(videoPick.cameraDevice.rawValue)
         
         if videoPick.cameraDevice == .Front {
             

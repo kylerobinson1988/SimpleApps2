@@ -8,7 +8,9 @@
 
 import UIKit
 
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    let loadImage = UIImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +21,38 @@ class MenuViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        
+        let videoInfo = info[UIImagePickerControllerEditedImage] as! UIImage
+        
+//        if mediaType == "public.movie"
+//        
+//        let selectedVideo = info[
+//        
+//        saveVideoVC = storyboard?.instantiateViewControllerWithIdentifier("saveVideoVC") as? SaveVideoViewController
+//        
+//        saveVideoVC!.videoURL = vidURL
+//        saveVideoVC!.videoStillImage = videoStillImage
+//        
+//        self.navigationController?.pushViewController(saveVideoVC!, animated: true)
 
+        
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        
+        loadImage.dismissMoviePlayerViewControllerAnimated()
+        
+    }
+
+    @IBAction func loadVideoButtonPressed(sender: AnyObject) {
+        
+        loadImage.delegate = self
+        loadImage.allowsEditing = false
+        loadImage.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        
+    }
 
 }
 
